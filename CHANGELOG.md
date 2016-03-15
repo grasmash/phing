@@ -2,6 +2,98 @@ P     H     I     N     G
 =========================
 
 
+Mar. 10, 2016 - Phing 2.14
+--------------------------
+
+This release contains the following new or improved functionality:
+
+ * Phing can now emit a specific status code on exit after failing
+ * Added IsPropertyTrue/IsPropertyFalse conditions
+ * Added IsWritable / IsReadable selectors
+ * Added GitDescribe task
+ * Added CutDirs mapper
+ * Line breaks in property files on Windows machines fixed
+ * FileSync task now supports excluding multiple files/directories
+ * Various typo and bug fixes, documentation updates
+
+The following tickets were closed in this release:
+
+ * [1245] ExecTask documentation has incorrect escape attribute default value
+ * [1244] phpunit task -- problem when listener depends on bootstrap
+ * [1242] symfonyConsoleTask does not quote path to console
+ * [1241] SymfonyConsoleTask's checkreturn / propertyname are not documented
+ * [1239] ResolvePath just concatenates if "dir" attribute is present
+ * [1237] HttpGetTask should catch HTTP_Request2_Exception, throw BuildException
+ * [1236] version-compare condition typo in documentation
+ * [1235] misworded sentence in documentation
+ * [1234] IsFailure condition always evaluates to TRUE
+ * [1231] JsHintTask fails when filename contains double quotes
+ * [1198] PropertyTask resolving UTF-8 special chars in file attribute
+ * [1194] Update relax-ng schema
+ * [1132] Provide SHA512 sum of all generated archives for a release
+ * [1131] Verification of changelog file fails when your file is in a directory added in your classpathref
+ * [1046] ReplaceTokensWithFile doesn't support begintoken/endtokens with / in them
+
+Dec. 4, 2015 - Phing 2.13
+-------------------------
+
+This release contains the following new or improved functionality:
+
+ * '-listener' command line argument
+ * SSL connections in FtpDeploy task
+ * IsFailure condition
+ * Crap4J PHPUnit formatter
+ * FirstMatch mapper
+ * PhpArrayMapLines filter
+ * NotifySend, Attrib tasks
+ * Json and Xml command line loggers
+ * Property parser now supports YAML files
+ * PHPUnit 5.x supported
+ * PHP 7 fixes
+ * Updated Apigen support
+ * PhpCodeSniffer task can now populate a property with used sniffs
+ * PHPMD and PhpCodeSniffer task can now cache results to speed up
+   subsequent runs
+ * Various typo and bug fixes, documentation updates
+
+The following tickets were closed in this release:
+
+ * [1224] JSHint and space in the path of the workspace (Windows 7)
+ * [1221] Case insensitive switch doesn't work
+ * [1217] Add ability to ignore symlinks in zip task
+ * [1212] Add support for formatters for PhpLoc task
+ * [1187] Disable compression of phing.phar to make it work on hhvm
+
+Aug. 24, 2015 - Phing 2.12
+--------------------------
+
+This release contains the following new or improved functionality:
+
+ * Retry, Tempfile, Inifile tasks
+ * 'keepgoing' command line mode
+ * Fileset support in the Import task
+ * EscapeUnicode, Concat filters
+ * Profile logger
+ * Composite mapper
+ * Various typo and bug fixes
+
+The following tickets were closed in this release:
+
+ * [1208] When UntarTask fails to extract an archive it should tell why
+ * [1207] PackageAsPath Task exists in 2.11, but not in documentation
+ * [1206] WaitFor task has maxwaitunit attribute, not WaitUnit
+ * [1205] Triple "B.37.1 Supported Nested Tags" header
+ * [1204] Wrong type of record task loglevel attribute
+ * [1203] Duplicated doc for Apply task, spawn attribute
+ * [1199] PHPUnitReport task: package name detection no longer works
+ * [1196] Target 'phing.listener.AnsiColorLogger' does not exist in this project.
+ * [1193] There is no native method for manipulating .ini files.
+ * [1191] phing parallel task should handle workers dying unexpectedly
+ * [1190] RegexTask processes backslashes incorrectly
+ * [1189] Coverage Report broken for Jenkins PHP Clover
+ * [1178] Parameter getValue is null when parameter is equal to 0
+ * [1148] phpdoc2 via phar
+
 May 20, 2015 - Phing 2.11
 -------------------------
 

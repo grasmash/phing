@@ -178,7 +178,9 @@ class Phing
             $m->execute($args);
         } catch (Exception $exc) {
             self::handleLogfile();
-            throw $exc;
+            self::printMessage($exc);
+            self::statusExit(1);
+            return;
         }
 
         if ($additionalUserProperties !== null) {
@@ -187,15 +189,40 @@ class Phing
             }
         }
 
+        // expect the worst
+        $exitCode = 1;
         try {
-            $m->runBuild();
+            try {
+                $m->runBuild();
+                $exitCode = 0;
+            } catch (ExitStatusException $ese) {
+                $exitCode = $ese->getCode();
+                if ($exitCode != 0) {
+                    self::handleLogfile();
+                    throw $ese;
+                }
+            }
+        } catch (BuildException $exc) {
+            // avoid printing output twice: self::printMessage($exc);
         } catch (Exception $exc) {
-            self::handleLogfile();
-            throw $exc;
-        }
+             echo $exc->getTraceAsString();
+             self::printMessage($exc);
+         }
 
         // everything fine, shutdown
         self::handleLogfile();
+        self::statusExit($exitCode);
+    }
+
+    /**
+     * This operation is expected to call `exit($int)`, which
+     * is what the base version does.
+     * However, it is possible to do something else.
+     * @param int $exitCode code to exit with
+     */
+    protected static function statusExit($exitCode)
+    {
+        exit($exitCode);
     }
 
     /**
@@ -476,10 +503,13 @@ class Phing
                     $msg = "You must specify a filename when using the -propertyfile argument";
                     throw new ConfigurationException($msg);
                 } else {
-                    $p = new Properties();
-                    $p->load(new PhingFile($args[++$i]));
+                    $filename = $args[++$i];
+                    $fileParserFactory = new FileParserFactory();
+                    $fileParser = $fileParserFactory->createParser(pathinfo($filename, PATHINFO_EXTENSION));
+                    $p = new Properties(null, $fileParser);
+                    $p->load(new PhingFile($filename));
                     foreach ($p->getProperties() as $prop => $value) {
-                        $this->setProperty($prop, $value);
+                      self::$definedProps->setProperty($prop, $value);
                     }
                 }
             } elseif ($arg == "-keep-going" || $arg == "-k") {
@@ -973,6 +1003,7 @@ class Phing
         $msg .= "  -longtargets           show target descriptions during build" . PHP_EOL;
         $msg .= "  -logfile <file>        use given file for log" . PHP_EOL;
         $msg .= "  -logger <classname>    the class which is to perform logging" . PHP_EOL;
+        $msg .= "  -listener <classname>  add an instance of class as a project listener" . PHP_EOL;
         $msg .= "  -f -buildfile <file>   use given buildfile" . PHP_EOL;
         $msg .= "  -D<property>=<value>   use value for given property" . PHP_EOL;
         $msg .= "  -keep-going, -k        execute all targets that do not depend" . PHP_EOL;
