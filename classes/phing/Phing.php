@@ -503,10 +503,13 @@ class Phing
                     $msg = "You must specify a filename when using the -propertyfile argument";
                     throw new ConfigurationException($msg);
                 } else {
-                    $p = new Properties();
-                    $p->load(new PhingFile($args[++$i]));
+                    $filename = $args[++$i];
+                    $fileParserFactory = new FileParserFactory();
+                    $fileParser = $fileParserFactory->createParser(pathinfo($filename, PATHINFO_EXTENSION));
+                    $p = new Properties(null, $fileParser);
+                    $p->load(new PhingFile($filename));
                     foreach ($p->getProperties() as $prop => $value) {
-                        $this->setProperty($prop, $value);
+                      self::$definedProps->setProperty($prop, $value);
                     }
                 }
             } elseif ($arg == "-keep-going" || $arg == "-k") {
