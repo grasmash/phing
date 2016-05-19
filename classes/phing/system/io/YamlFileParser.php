@@ -72,8 +72,7 @@ class YamlFileParser implements FileParserInterface
         $flattenedArray = array();
         foreach ($arrayToFlatten as $key => $value) {
             $tmpFlattendKey = (!empty($flattenedKey) ? $flattenedKey.$separator : '') . $key;
-            // only append next value if is array and is an associative array
-            if (is_array($value) && array_keys($value) !== range(0, count($value) - 1)) {
+            if (is_array($value)) {
                 $flattenedArray = array_merge(
                     $flattenedArray,
                     $this->flattenArray(
